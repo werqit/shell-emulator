@@ -1,0 +1,21 @@
+# Проверка Stage 4
+
+ls
+pwd
+cd home
+pwd
+ls
+cd user
+pwd
+ls
+cd /home/user/documents
+pwd
+ls
+cd ..
+pwd
+uptime
+cd /wrong
+cd /home/user/documents/file.txt
+unknown_command
+"bad quote
+exit
