@@ -1,0 +1,6 @@
+path,type
+/,dir
+/home,dir
+/home/user,dir
+/home/user/documents,dir
+/home/user/documents/file.txt,file

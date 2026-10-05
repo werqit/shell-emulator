@@ -1,0 +1,5 @@
+path,type
+/,dir
+/file1.txt,file
+/file2.txt,file
+/file3.txt,file

@@ -1,9 +1,34 @@
+import csv
 import shlex
 import sys
 
 
+ARGUMENT_COUNT = 3
+
+
 def parse_command(command):
     return shlex.split(command)
+
+
+def load_vfs(vfs_path):
+    vfs = {}
+
+    try:
+        with open(vfs_path, "r") as file:
+            reader = csv.DictReader(file)
+
+            for row in reader:
+                vfs[row["path"]] = row["type"]
+
+    except FileNotFoundError:
+        print("Ошибка: VFS не найден")
+        return None
+
+    except (KeyError, csv.Error):
+        print("Ошибка: неправильный формат VFS")
+        return None
+
+    return vfs
 
 
 def execute_command(parts):
@@ -15,7 +40,8 @@ def execute_command(parts):
 
     if name == "exit":
         return False
-    elif name == "ls":
+
+    if name == "ls":
         print("ls", args)
     elif name == "cd":
         print("cd", args)
@@ -39,7 +65,9 @@ def run_script(script_path):
                 try:
                     parts = parse_command(line)
                 except ValueError:
-                    print("Ошибка: неправильные кавычки")
+                    print(
+                        "Ошибка: неправильные кавычки"
+                    )
                     continue
 
                 if not execute_command(parts):
@@ -52,8 +80,11 @@ def run_script(script_path):
 
 
 def main():
-    if len(sys.argv) != 3:
-        print("Использование: python main.py <путь_к_VFS> <путь_к_скрипту>")
+    if len(sys.argv) != ARGUMENT_COUNT:
+        print(
+            "Использование: python main.py "
+            "<путь_к_VFS> <путь_к_скрипту>"
+        )
         return
 
     vfs_path = sys.argv[1]
@@ -61,6 +92,13 @@ def main():
 
     print("VFS:", vfs_path)
     print("Script:", script_path)
+
+    vfs = load_vfs(vfs_path)
+
+    if vfs is None:
+        return
+
+    print("VFS загружена:", len(vfs), "элементов")
 
     if not run_script(script_path):
         return

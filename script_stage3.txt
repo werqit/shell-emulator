@@ -1,0 +1,9 @@
+# Проверка Stage 3
+
+ls
+ls "my folder"
+cd "my folder"
+cd /home/user
+unknown_command
+"bad quote
+exit
